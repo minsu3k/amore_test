@@ -4,11 +4,13 @@
 * [프로젝트 설명](#프로젝트-설명)
 * [기술 스펙](#기술-스펙)
 * [패키지 구조](#패키지-구조)
+* [DB 구성](#DB-구성)
 * [빌드 및 실행](#빌드-및-실행)
 
 ## 프로젝트 설명
 - 고객의 주문에 따라 생산 수량 및 순서를 관리하는 REST API 형태의 프로그램
 - 타이머 쓰레드와 공장 쓰레드를 이용하여 Queue에 담긴 주문을 처리합니다.
+
 ## 기술 스펙
 - Java 8
 - SpringBoot 2.7.5
@@ -52,13 +54,20 @@ resourses
   - sql : TABLE SCHEMA 와 INIT SQL문이 있습니다.   
 
 
+## DB 구성
+- 테이블
+  - ORDER : 주문 테이블
+  - MATERIAL : 원료 테이블
+  - STOCK : 재고 테이블
+
 ## 빌드 및 실행
 - Gradle을 이용하여 빌드 및 실행합니다.
-- 프로젝트 설치 경로로 이동
-- cmd 창에서 gradlew.bat 실행
+1. 프로젝트 설치 경로로 이동
+2. cmd 창에서 start script 실행(빌드 및 jar 실행)
 
 ```
-ex : gradlew build (window)   
-./gradlew build (Linux)
+ex : window : start.cmd
+     Linux : ./start.sh
+      
 ```
 
