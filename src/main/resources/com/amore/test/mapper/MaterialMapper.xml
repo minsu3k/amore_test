@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amore.test.mapper.MaterialMapper">
+	
+	<resultMap id="materialResultMap" type="com.amore.test.entity.Material">
+		<result column="type" property="type" />
+        <result column="quantity" property="quantity" />
+	</resultMap>
+
+    <select id="getByType" parameterType="java.lang.String" resultMap="materialResultMap">
+        SELECT * 
+        FROM MATERIAL
+        WHERE
+        	TYPE = #{type}
+    </select>
+    
+    <update id="update" parameterType="com.amore.test.entity.Material">
+   		UPDATE MATERIAL
+        SET QUANTITY = #{quantity}
+   		WHERE TYPE = #{type}
+    </update>
+    
+    <select id="getTotalCount" resultType="java.lang.Integer">
+    	SELECT COUNT(*)
+    	FROM MATERIAL
+    </select>
+    
+    <select id="isNewMaterial" resultType="java.lang.Boolean">
+    	SELECT 
+    		CASEWHEN(COUNT(*) > 0, 0, 1)
+    	FROM MATERIAL
+    	WHERE TYPE = #{type}
+    </select>
+    
+    <insert id="insert">
+    	INSERT INTO MATERIAL(TYPE, QUANTITY)
+    	VALUES(#{type}, #{quantity})
+    </insert>
+    
+    <delete id="remove">
+    	DELETE FROM MATERIAL
+    	WHERE TYPE = #{type}
+    </delete>
+    
+    <select id="getAll" resultMap="materialResultMap">
+    	SELECT *
+    	FROM MATERIAL
+    </select>
+</mapper>

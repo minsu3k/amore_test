@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amore.test.mapper.OrderMapper">
+	
+	<resultMap id="orderResultMap" type="com.amore.test.entity.Order">
+        <result column="ORDER_NO" property="orderNumber" />
+        <result column="ORDER_CODE" property="orderCode" />
+        <result column="STEP_CODE" property="stepCode" />
+        <result column="ORDER_DATE" property="orderDate" />
+        <result column="SEND_DATE" property="sendDate" />
+    </resultMap>
+    
+    <select id="createOrderNumber" resultType="java.lang.String">
+    	SELECT SQ_PRODUCT_ORDER_NO.NEXTVAL
+    </select>
+	
+    <insert id="insert">
+        INSERT INTO PRODUCT_ORDER(ORDER_NO, ORDER_CODE, STEP_CODE, ORDER_DATE, SEND_DATE)
+        VALUES(#{orderNumber}, #{orderCode}, #{stepCode}, #{orderDate}, #{sendDate})
+    </insert>
+    
+    <select id="getOrder" parameterType="java.lang.String" resultMap="orderResultMap">
+    	SELECT * 
+    	FROM PRODUCT_ORDER
+    	WHERE ORDER_NO = #{orderNumber}  
+    </select>
+    
+    <select id="getReadyStepOrderList" resultMap="orderResultMap">
+    	SELECT *
+    	FROM PRODUCT_ORDER
+    	WHERE STEP_CODE = 'RECEIPT'
+    	ORDER BY ORDER_DATE
+    </select>
+    
+    <update id="update" parameterType="com.amore.test.entity.Order">
+    	UPDATE PRODUCT_ORDER
+    	SET 
+    		ORDER_NO = #{orderNumber}
+	    	<if test="orderCode != null and orderCode != ''">
+	    	,ORDER_CODE = #{orderCode}
+	    	</if>
+	    	<if test="stepCode != null and stepCode != ''">
+	    	,STEP_CODE = #{stepCode}
+	    	</if>
+	    	<if test="orderDate != null and orderDate != ''">
+	    	,ORDER_DATE = #{orderDate}
+	    	</if>
+	    	<if test="sendDate != null and sendDate != ''">
+	    	,SEND_DATE = #{sendDate}
+	    	</if>
+    	WHERE
+    		ORDER_NO = #{orderNumber}
+   	</update>
+    
+    <select id="getProducingOrder" resultMap="orderResultMap">
+    	SELECT *
+    	FROM PRODUCT_ORDER
+    	WHERE STEP_CODE = 'PRODUCING'
+    </select>
+    
+    <select id="getOrderByStepCode" parameterType="java.lang.String" resultMap="orderResultMap">
+    	SELECT *
+    	FROM PRODUCT_ORDER
+    	WHERE STEP_CODE = #{stepCode}
+    </select>
+    
+    <update id="updateStepCodeToSendComplete">
+    	UPDATE PRODUCT_ORDER
+    	SET STEP_CODE = 'SEND_COMPLETE'
+    	WHERE STEP_CODE = 'SEND_READY'
+    </update>
+    
+</mapper>
