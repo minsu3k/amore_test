@@ -128,9 +128,11 @@ public class FactoryUtil implements Runnable {
 						orderService.update(orderRequest);
 					}
 				}else if(TimeUtil.currentDateTime.getHour() == 17 && TimeUtil.currentDateTime.getMinute() == 0) {
-					FACTORY_STATUS = FactoryStatus.OPERATION_END;
-					orderService.setReadyToSend(); //발송 준비 상태 변경
-					orderService.sendProduct(); //일괄 발송
+					if(FACTORY_STATUS != FactoryStatus.OPERATION_END) {
+						orderService.setReadyToSend(); //발송 준비 상태 변경
+						orderService.sendProduct(); //일괄 발송
+						FACTORY_STATUS = FactoryStatus.OPERATION_END;
+					}
 					//factoryService.checkSendDate();
 				}
 			} catch (InterruptedException e) {
