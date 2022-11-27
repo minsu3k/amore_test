@@ -66,8 +66,8 @@ resourses
 2. cmd 창에서 start script 실행(빌드 및 jar 실행)
 
 ```
-ex : window : start.cmd
-     Linux : ./start.sh
+ex) window : start.cmd
+    Linux : ./start.sh
       
 ```
 
